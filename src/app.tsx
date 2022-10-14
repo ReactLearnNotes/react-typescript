@@ -1,50 +1,54 @@
-
 // This is the most futureproof way to import React. If you set --allowSyntheticDefaultImports (or add "allowSyntheticDefaultImports": true) in your tsconfig.json you can use more familiar imports:
-import * as React from 'react';
-import * as ReactDom from 'react-dom'
+
+import React from 'react'
 
 type AppProps = {
-  message:string;
-  count:number;
-  disabled:boolean;
-  names:string[];
-  status:'success' | 'error';
-  obj:object;
-  obj2:{};
+  message: string
+  count: number
+  disabled: boolean
+  names: string[]
+  status: 'success' | 'error'
+  obj: object
+  obj2: {}
 }
 
 type StatelessAppProps = {
-  message:string;
+  message: string
 }
 
+const StatelessApp: React.FunctionComponent<StatelessAppProps> = ({
+  message,
+}) => <div>{message}</div>
 
-const StatelessApp:React.FunctionComponent <StatelessAppProps> = ( {message } )=><div>{message}</div>
-
-class StatefulApp extends React.Component<{message:string},{count:number}> {
-  constructor(props){
+class StatefulApp extends React.Component<
+  { message: string },
+  { count: number }
+> {
+  constructor(props: any) {
     super(props)
     this.state = {
-      count: 0
+      count: 0,
     }
   }
-  render(){
-    return <div onClick={this.inc}>{this.props.message} {this.state.count}</div>
+  render() {
+    return (
+      <div onClick={this.inc}>
+        {this.props.message} {this.state.count}
+      </div>
+    )
   }
-  inc = ()=>{
+  inc = () => {
     this.setState({
-      count: this.state.count + 1
+      count: this.state.count + 1,
     })
   }
 }
 
-const App = ()=><>
-  <StatelessApp message='StatelessApp'></StatelessApp>
-  <StatefulApp message='hello ' ></StatefulApp>
-</>
-
-
-
-ReactDom.render(
-<App></App>,
-  document.getElementById('root')
+const App = () => (
+  <>
+    <StatelessApp message="StatelessApp"></StatelessApp>
+    <StatefulApp message="hello "></StatefulApp>
+  </>
 )
+
+export default App

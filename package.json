@@ -1,35 +1,32 @@
 {
-  "name": "typescript-react-starter",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "vite-project",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
   "scripts": {
-    "dev": "webpack-dev-server",
-    "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yayxs/typescript-react-starter.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/yayxs/typescript-react-starter/issues"
-  },
-  "homepage": "https://github.com/yayxs/typescript-react-starter#readme",
   "dependencies": {
-    "@types/react": "^17.0.39",
-    "@types/react-dom": "^17.0.11",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "webpack": "^5.69.1",
-    "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "ts-loader": "^9.2.6",
-    "typescript": "^4.5.5"
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.40.0",
+    "@typescript-eslint/parser": "^5.40.0",
+    "@vitejs/plugin-react": "^2.1.0",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard-with-typescript": "^23.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.31.10",
+    "prettier": "^2.7.1",
+    "typescript": "*",
+    "vite": "^3.1.0"
   }
 }

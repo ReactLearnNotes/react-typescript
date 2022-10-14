@@ -1,4 +1,18 @@
-> tsconfig
+## `vite` 项目开发依赖
+
+对于 `@types` `typescript` 会自动加载 `node_modules/@types` 下类型定义全局使用
+
+```json
+{
+  "devDependencies": {
+    "@types/react": "^18.0.17", //
+    "@types/react-dom": "^18.0.6",
+    "@vitejs/plugin-react": "^2.1.0",
+    "typescript": "^4.6.4",
+    "vite": "^3.1.0"
+  }
+}
+```
 
 ```json
 {
@@ -63,7 +77,7 @@
 这里我们可以不使用之前的方式,如下
 
 ```jsx
-import * as React from "react";
+import * as React from 'react'
 ```
 
 ## 组件 Components
@@ -77,7 +91,7 @@ import * as React from "react";
 // 绑定元素“handleClick”隐式具有“any”类型
 const Button = ({ onClick: handleClick, children }) => (
   <button onClick={handleClick}>{children}</button>
-);
+)
 ```
 
 这就需要我们对其进行描述，
@@ -97,11 +111,11 @@ const Button = ({ onClick: handleClick, children }:Props) => (
 还记不记得，在本文的开篇我们一起说了，一些依赖包，那么`@types/react` 中就替我们声明了一些优雅的描述,比如说`SFC` 这里就已经预设了 `children` 我们每次不用再去指定 `children` 的类型
 
 ```jsx
-type Props = { onClick(e: MouseEvent<HTMLElement>): void };
+type Props = { onClick(e: MouseEvent<HTMLElement>): void }
 
 const Button: SFC<Props> = ({ onClick: handleClick, children }) => (
   <button onClick={handleClick}>{children}</button>
-);
+)
 ```
 
 也就是说我们可以通过 `import React, { SFC} from "react";` 其中 `SFC` 以及有我们的 `传入的组件`（这里指 children）
@@ -109,21 +123,21 @@ const Button: SFC<Props> = ({ onClick: handleClick, children }) => (
 或者是这样的，你也可以看下下面的代码（这里我们讨论下最常见的组件属性传值）
 
 ```jsx
-import React from "react";
-import PropTypes from "prop-types"; // 引入类型的描述
+import React from 'react'
+import PropTypes from 'prop-types' // 引入类型的描述
 
-export function ChildCom({ children, title = "我将从父组件传过来" }) {
+export function ChildCom({ children, title = '我将从父组件传过来' }) {
   return (
     <div>
       {title}: {children}
     </div>
-  );
+  )
 }
 
 ChildCom.propTypes = {
   title: PropTypes.string,
   children: PropTypes.node.isRequired,
-};
+}
 ```
 
 ```jsx
@@ -156,8 +170,8 @@ export interface ITitleProps {
 }
 
 const MyText = () => {
-  return <>副标题</>;
-};
+  return <>副标题</>
+}
 
 /**
  * 此时我们的函数参数  是从泛型  FunctionComponent 推断出来的
@@ -170,8 +184,8 @@ const Header: FunctionComponent<ITitleProps> = ({ title, children }) => {
       <h2>{title}</h2>
       {children}
     </>
-  );
-};
+  )
+}
 
 const App = () => {
   return (
@@ -179,8 +193,8 @@ const App = () => {
       <hr />
       <Header title="欢迎你">ceshi</Header>
     </>
-  );
-};
+  )
+}
 ```
 
 或者我们可以使用`React.FC`
@@ -191,9 +205,9 @@ interface AppProps {
 }
 // React.FC 的意思是说 FunctionComponent 如果使用`React.FC` 的话，内含有 children ,
 // 这样我们可以直接使用 children
-const App:React.FC<AppProps> = ({ value = '' , children}) => {
-  return <></>;
-};
+const App: React.FC<AppProps> = ({ value = '', children }) => {
+  return <></>
+}
 ```
 
 ### 有状态组件（calss 类）
@@ -238,12 +252,13 @@ const decrementClicksCount = (prevState: State) => ({
   clicksCount: prevState.clicksCount - 1,
 });
 ```
+
 #### 一个简单的时钟，用来显示时间
 
 ```jsx
-import React, { Component } from "react"; // 导入函数组件
+import React, { Component } from 'react' // 导入函数组件
 
-import * as ReactDOM from "react-dom";
+import * as ReactDOM from 'react-dom'
 
 /**
  * 当前时间
@@ -263,21 +278,21 @@ class App extends Component<{}, { time: Date }> {
   setNow() {
     this.setState({
       time: new Date(),
-    });
+    })
   }
   /**
    * 转换时间
    */
   time2Str(time: Date) {
-    return time.toLocaleTimeString();
+    return time.toLocaleTimeString()
   }
   // 在组件挂在之前 我们去设置一下时间
   componentWillMount() {
-    this.setNow();
+    this.setNow()
   }
   // 在组件挂在后呢 我们需要每一秒更改一下状态
   componentDidMount() {
-    setInterval(() => this.setNow(), 1000);
+    setInterval(() => this.setNow(), 1000)
   }
   // 然后 就是渲染 至页面
   render() {
@@ -285,14 +300,15 @@ class App extends Component<{}, { time: Date }> {
       <>
         <p>{this.time2Str(this.state.time)}</p>
       </>
-    );
+    )
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("example"));
+ReactDOM.render(<App />, document.getElementById('example'))
 ```
 
 我们通过上述的方式，去设置只读的`state` ，那如果有自己定义的复杂类型的话，就需要我们换种方式了
+
 ```jsx
 export default interface IUser {
   name: string;
@@ -306,7 +322,7 @@ interface IState {
 }
 
 class Simple extends Component{
-  
+
 }
 ```
 
@@ -317,17 +333,17 @@ export interface ISimpleProps {}
 
 class Simple extends Component<ISimpleProps, {}> {
   constructor(props: ISimpleProps) {
-    super(props);
+    super(props)
   }
 }
 ```
 
-
 ### 泛型组件
 
-
 ## 默认属性 defaultProps
+
 我们可以通过 defaultProps 来定义一个组件的默认属性
+
 ```jsx
   static defaultProps = {
     msg: 'Hello everyone!'
@@ -335,29 +351,27 @@ class Simple extends Component<ISimpleProps, {}> {
 
 ```
 
-
 ## 事件处理
 
 我们无时无刻都在与事件打交道
 
 ```jsx
-import React, { Component, MouseEvent } from "react"; // 导入函数组件
+import React, { Component, MouseEvent } from 'react' // 导入函数组件
 
-import * as ReactDOM from "react-dom";
+import * as ReactDOM from 'react-dom'
 
 export class Button extends Component {
   handleClick(event: MouseEvent) {
-    console.log(event);
-    event.preventDefault();
+    console.log(event)
+    event.preventDefault()
   }
 
   render() {
-    return <button onClick={this.handleClick}>{this.props.children}</button>;
+    return <button onClick={this.handleClick}>{this.props.children}</button>
   }
 }
-ReactDOM.render(<Button>点击啊</Button>, document.getElementById("example"));
+ReactDOM.render(<Button>点击啊</Button>, document.getElementById('example'))
 ```
-
 
 ### 常见事件
 
@@ -365,52 +379,52 @@ ReactDOM.render(<Button>点击啊</Button>, document.getElementById("example"));
 const App = () => {
   // 指的是鼠标点击的事件
   const onClick: React.MouseEventHandler<HTMLInputElement> = (e) => {
-    console.log(e.currentTarget.value);
-  };
+    console.log(e.currentTarget.value)
+  }
   // React.ChangeEventHandler
   const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    console.log(e.currentTarget.value);
-  };
+    console.log(e.currentTarget.value)
+  }
   // React.FocusEventHandler
   const onFocus: React.FocusEventHandler<HTMLInputElement> = (e) => {
-    console.log(e.currentTarget.value);
-  };
-  return <input onClick={onClick} onChange={onChange} onFocus={onFocus} />;
-};
-
+    console.log(e.currentTarget.value)
+  }
+  return <input onClick={onClick} onChange={onChange} onFocus={onFocus} />
+}
 ```
+
 ### 限制性事件处理
 
 可以使用泛型
 
 ```jsx
-import React, { Component, MouseEvent } from "react"; // 导入函数组件
+import React, { Component, MouseEvent } from 'react' // 导入函数组件
 
-import * as ReactDOM from "react-dom";
+import * as ReactDOM from 'react-dom'
 
 export class Button extends Component {
   /*
     点击事件限定为  HTMLButton 元素类型
   */
   handleClick(event: MouseEvent<HTMLButtonElement>) {
-    console.log(`按钮点击了`);
-    event.preventDefault();
+    console.log(`按钮点击了`)
+    event.preventDefault()
   }
 
   /* 
     泛型可以让我 联合类型 是HTMLButtonElement 或者是 HTMLAnchorElement
   */
   handleAnotherClick(event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>) {
-    event.preventDefault();
-    alert("Yeah!");
+    event.preventDefault()
+    alert('Yeah!')
   }
 
   render() {
-    return <button onClick={this.handleClick}>{this.props.children}</button>;
+    return <button onClick={this.handleClick}>{this.props.children}</button>
   }
 }
 
-ReactDOM.render(<Button>点击啊</Button>, document.getElementById("example"));
+ReactDOM.render(<Button>点击啊</Button>, document.getElementById('example'))
 ```
 
 ## 类型校验
@@ -426,19 +440,19 @@ function Article({ title, id }: InferProps<typeof Article.propTypes>) {
       <h1>{title}</h1>
       <span>{id}</span>
     </div>
-  );
+  )
 }
 
 Article.propTypes = {
   title: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
-};
+}
 /**
  * 在ts 的环境中  id 是可选的
  */
 Article.defaultProps = {
   id: 20,
-};
+}
 
 class App extends Component {
   render() {
@@ -446,18 +460,18 @@ class App extends Component {
       <>
         <Article title="文章" id={1} />
       </>
-    );
+    )
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("example"));
+ReactDOM.render(<App />, document.getElementById('example'))
 ```
 
 **重心是放在处理属性上**
 
 ```jsx
 function ArticleList({ children }: InferProps<typeof ArticleList.propTypes>) {
-  return <div className="list">{children}</div>;
+  return <div className="list">{children}</div>
 }
 
 ArticleList.propTypes = {
@@ -465,50 +479,49 @@ ArticleList.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
-};
+}
 ```
 
-## hooks声明用法
+## hooks 声明用法
 
 ```jsx
-import React, { FunctionComponent, useState, FC } from "react";
-import * as ReactDOM from "react-dom";
+import React, { FunctionComponent, useState, FC } from 'react'
+import * as ReactDOM from 'react-dom'
 
 // 组件作为数字初始值
 const Counter: FunctionComponent<{ initial?: number }> = ({ initial = 0 }) => {
   // 我们传递了一个数字
-  const [clicks, setClicks] = useState(initial);
+  const [clicks, setClicks] = useState(initial)
   return (
     <>
       <p>Clicks: {clicks}</p>
       <button onClick={() => setClicks(clicks + 1)}>+</button>
       <button onClick={() => setClicks(clicks - 1)}>-</button>
     </>
-  );
-};
+  )
+}
 
 const App: FC = () => {
   return (
     <>
       <Counter />
     </>
-  );
-};
+  )
+}
 
-ReactDOM.render(<App />, document.getElementById("example"));
+ReactDOM.render(<App />, document.getElementById('example'))
 ```
 
-### useState & useEffect
-关于 `useState` 我们可以通过
- - 泛型传参
- - 自动推断
+### `useState`
+
+首先是`useState` ，我们可以由输入值隐式推导（自动推断） 或者显示的传入泛型（泛型传参）
 
 ```jsx
 import React, { FunctionComponent, useState, FC, useEffect } from "react";
 import * as ReactDOM from "react-dom";
 
 const Simple: FC = () => {
-  const [name, setName] = useState("yayxs"); // state的类型string 自动推断出来是 字符串类型
+  const [name, setName] = useState("van"); // state的类型string 自动推断出来是 字符串类型
   const [sex,SetSex ] = useState<string>() // 类型 为 string | undefined
   const [width, setWidth] = useState(0);
   const [state,setState ] = useState<string | null >() // state的类型为 string | null
@@ -546,34 +559,47 @@ const App: FC = () => {
 ReactDOM.render(<App />, document.getElementById("example"));
 ```
 
+拿这个举例子
+
+```jsx
+const [sex,SetSex ] = useState<string>() // 类型 为 string | undefined
+```
+
+在没有显示传入泛型时候，初始值 是 `string` 或者 `undefined`
+如果需要消费 `useState` 返回值的类型，可以搭配 `ReturnType`
+
+```ts
+type State = ReturnType<typeof useState<number>>
+```
+
 ### useContext
 
 ```jsx
 // 上下文中有个字符串类型的 属性
-export const lanContext = React.createContext({ lan: "en" });
+export const lanContext = React.createContext({ lan: 'en' })
 
 const Simple: FC = () => {
-  const { lan } = useContext(lanContext);
+  const { lan } = useContext(lanContext)
   return (
     <>
       <h4>{lan}</h4>
     </>
-  );
-};
+  )
+}
 ```
 
 ### useRef
 
 ```jsx
-type Value = { value:string }
-const App = ()=>{
-    // 其中 ref 是 存值的作用
+type Value = { value: string }
+const App = () => {
+  // 其中 ref 是 存值的作用
   // const ref = useRef<Value>({ value: "" })
   // ref 是html 元素
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef < HTMLDivElement > null
   return (
     <>
-      <div ref={ref} ></div>
+      <div ref={ref}></div>
     </>
   )
 }
@@ -582,22 +608,22 @@ const App = ()=>{
 ```jsx
 function Simple() {
   // 用null 初始化 虽然初始化 是 null 但是 尝试去寻找 HTMLInputElement 类型的元素
-  const inputEl = useRef < HTMLInputElement > null;
-  const ref = useRef(""); // ref.current的类型为 string
+  const inputEl = useRef < HTMLInputElement > null
+  const ref = useRef('') // ref.current的类型为 string
   // 使用泛型
   const handleClick = () => {
     // 如果存在的话，才使聚焦
     if (inputEl && inputEl.current) {
-      inputEl.current.focus();
+      inputEl.current.focus()
     }
-  };
+  }
   return (
     <>
       {/* inputEl也只可与输入元素一起使用 */}
       <input ref={inputEl} type="text" />
       <button onClick={handleClick}>Focus the input</button>
     </>
-  );
+  )
 }
 ```
 
@@ -614,31 +640,38 @@ function Simple() {
 
 ### useCallback
 
+```jsx
+const Container = () => {
+  // 泛型推导为
+  const handler1 = useCallback(() => {}, [])
+}
+```
+
 ### useReducer
 
 ```jsx
 // 首先是类型定义
 
 type ActionType = {
-  type: "reset" | "decrement" | "increment", // 联合类型
-};
+  type: 'reset' | 'decrement' | 'increment', // 联合类型
+}
 
 type StateType = {
   count: number,
-};
-const initialState = { count: 0 };
+}
+const initialState = { count: 0 }
 
 function reducer(state: StateType, action: ActionType) {
   // 确保我们正确的设置相关的情况
   switch (action.type) {
-    case "reset":
-      return initialState;
-    case "increment":
-      return { count: state.count + 1 };
-    case "decrement":
-      return { count: state.count - 1 };
+    case 'reset':
+      return initialState
+    case 'increment':
+      return { count: state.count + 1 }
+    case 'decrement':
+      return { count: state.count - 1 }
     default:
-      return state;
+      return state
   }
 }
 
@@ -647,15 +680,15 @@ function Counter({ initialCount = 0 }) {
    * 参数一 reducer函数
    * 参数二 初始状态
    */
-  const [state, dispatch] = useReducer(reducer, { count: initialCount });
+  const [state, dispatch] = useReducer(reducer, { count: initialCount })
   return (
     <>
       Count: {state.count}
-      <button onClick={() => dispatch({ type: "reset" })}>Reset</button>
-      <button onClick={() => dispatch({ type: "increment" })}>+</button>
-      <button onClick={() => dispatch({ type: "decrement" })}>-</button>
+      <button onClick={() => dispatch({ type: 'reset' })}>Reset</button>
+      <button onClick={() => dispatch({ type: 'increment' })}>+</button>
+      <button onClick={() => dispatch({ type: 'decrement' })}>-</button>
     </>
-  );
+  )
 }
 ```
 
@@ -675,7 +708,7 @@ type ContextProps = {
   flag: boolean,
   lan: string,
   theme: string,
-};
+}
 
 // 1 创建上下文
 // export const AppContext =  React.createContext({
@@ -683,22 +716,22 @@ type ContextProps = {
 //   lan:'cn',
 //   theme:'dark'
 // })
-export const AppContext = React.createContext < Partial < ContextProps >> {};
+export const AppContext = React.createContext < Partial < ContextProps >> {}
 // 2 Provide context
 
 const App = () => {
   return (
     <AppContext.Provider
       value={{
-        lan: "de",
+        lan: 'de',
         flag: true,
-        theme: "light",
+        theme: 'light',
       }}
     >
       <Header />
     </AppContext.Provider>
-  );
-};
+  )
+}
 
 // 3 Consume context
 
@@ -707,11 +740,11 @@ const Header = () => {
     <AppContext.Consumer>
       {({ flag }) => {
         if (flag) {
-          return <h1>Logged in!</h1>;
+          return <h1>Logged in!</h1>
         }
-        return <h1>You need to sign in</h1>;
+        return <h1>You need to sign in</h1>
       }}
     </AppContext.Consumer>
-  );
-};
+  )
+}
 ```
